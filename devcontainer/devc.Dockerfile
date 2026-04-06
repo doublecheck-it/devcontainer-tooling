@@ -50,7 +50,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 # Copy and execute tooling installation scripts
 # This ensures toolings are installed during image build, not at runtime
-COPY tooling/devcontainer-tooling/devcontainer/install-toolings.sh /tmp/install-toolings.sh
+COPY tooling/00-devcontainer/devcontainer/install-toolings.sh /tmp/install-toolings.sh
 COPY tooling /tmp/tooling
 RUN chmod +x /tmp/install-toolings.sh && \
     TOOLING_DIR=/tmp/tooling bash /tmp/install-toolings.sh && \
