@@ -50,11 +50,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 # Copy and execute tooling installation scripts
 # This ensures toolings are installed during image build, not at runtime
-COPY tooling/00-devcontainer/devcontainer/install-toolings.sh /tmp/install-toolings.sh
+# Note: This file can be in tooling/XX-devcontainer/ where XX is the prefix (e.g., 00-devcontainer)
+# We need to find our own location dynamically
 COPY tooling /tmp/tooling
-RUN chmod +x /tmp/install-toolings.sh && \
-    TOOLING_DIR=/tmp/tooling bash /tmp/install-toolings.sh && \
-    rm -rf /tmp/install-toolings.sh /tmp/tooling
+RUN chmod +x /tmp/tooling/*/devcontainer/install-toolings.sh && \
+    TOOLING_DIR=/tmp/tooling bash /tmp/tooling/*/devcontainer/install-toolings.sh && \
+    rm -rf /tmp/tooling
 
 # Set up workspace directory
 WORKDIR /workspace

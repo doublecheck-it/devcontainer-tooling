@@ -1,11 +1,13 @@
 # Development environment Docker Compose configuration
 # Uses COMPOSE_PROJECT_NAME from .tooling.env for unique project identification
+# The DEVC_DOCKERFILE_PATH env var is set by commons.mk with the discovered path
 
 services:
   dev:
     build:
       context: ../../..
-      dockerfile: tooling/devcontainer-tooling/devcontainer/devc.Dockerfile
+      # Use env var set by commons.mk, fallback to default if not set
+      dockerfile: ${DEVC_DOCKERFILE_PATH:-tooling/00-devcontainer/devcontainer/devc.Dockerfile}
     # Use COMPOSE_PROJECT_NAME instead of container_name for better isolation
     # This ensures unique names for containers, networks, and volumes
     working_dir: /workspace
