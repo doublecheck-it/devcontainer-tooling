@@ -20,9 +20,12 @@ devc.up: _ensure-tooling-env ## Start the devcontainer
 devc.down: ## Stop the devcontainer
 	$(DOCKER_COMPOSE) down
 
-devc.restart: devc.down devc.up ## Restart the devcontainer (uses cached image)
+devc.restart: devc.down ## Restart the devcontainer (uses cached image)
+	@sleep 2  # Wait for network cleanup
+	$(MAKE) devc.up
 
 devc.rebuild: devc.down ## Rebuild and restart the devcontainer (forces full rebuild, no cache)
+	@sleep 2  # Wait for network cleanup
 	@echo "Rebuilding image from scratch (no cache)..."
 	$(DOCKER_COMPOSE) build --no-cache
 	$(DOCKER_COMPOSE) up -d
